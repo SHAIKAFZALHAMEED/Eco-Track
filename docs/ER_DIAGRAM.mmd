@@ -1,0 +1,48 @@
+erDiagram
+    BUILDINGS ||--o{ EMISSION_RECORDS : "hosts"
+    CATEGORIES ||--o{ EMISSION_FACTORS : "defines"
+    CATEGORIES ||--o{ EMISSION_RECORDS : "classifies"
+    EMISSION_FACTORS ||--o{ EMISSION_RECORDS : "calculates"
+
+    BUILDINGS {
+        bigint_unsigned building_id PK
+        varchar_120 building_name UK
+        varchar_160 location
+        timestamp created_at
+    }
+
+    CATEGORIES {
+        bigint_unsigned category_id PK
+        varchar_30 category_code UK
+        varchar_80 category_name UK
+        varchar_255 description
+    }
+
+    EMISSION_FACTORS {
+        bigint_unsigned factor_id PK
+        bigint_unsigned category_id FK
+        varchar_120 factor_name
+        varchar_30 activity_unit
+        decimal_12_6 factor_value
+        varchar_30 emission_unit
+        varchar_255 source_name
+        boolean is_active
+        timestamp created_at
+    }
+
+    EMISSION_RECORDS {
+        bigint_unsigned record_id PK
+        bigint_unsigned building_id FK
+        bigint_unsigned category_id FK
+        bigint_unsigned factor_id FK
+        varchar_180 activity_name
+        decimal_14_3 activity_quantity
+        varchar_30 activity_unit
+        decimal_12_6 factor_value_snapshot
+        decimal_16_4 emissions_kg_co2e
+        date record_date
+        text notes
+        timestamp created_at
+        timestamp updated_at
+    }
+
